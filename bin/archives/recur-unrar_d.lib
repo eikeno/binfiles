@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+pushd "$(dirname "$@")"
+	mkdir -p "$(basename "$@" .rar)" && cd "$(basename "$@" .rar)" && unrar x ../"$(basename "$@")" && rm -f ../"$(basename "$@")" && cd ..
+popd

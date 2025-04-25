@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+pushd "$(dirname "$@")"
+	mkdir -p "$(basename "$@" .zip)" && cd "$(basename "$@" .zip)" && unzip ../"$(basename "$@")" && rm -f ../"$(basename "$@")" && cd ..
+popd

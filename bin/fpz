@@ -1,0 +1,5 @@
+#!/bin/bash
+# Use fzf to select a flatpak app to run
+# depends : flatpak
+
+flatpak run "$(flatpak list --app | sort | fzf)"

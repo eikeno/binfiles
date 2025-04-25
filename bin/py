@@ -1,0 +1,28 @@
+#!/bin/bash
+# Allow use of multiple versions of Python stored in home.
+
+function listver {
+	find "$HOME/Python/versions/" -mindepth 1 -maxdepth 1 -regextype sed -regex ".*/[0-9]\{1\}.*"
+}
+
+function usage {
+	echo "py VERSION ARGS"
+	echo "Where VERSION in one of installed verisons:"
+	listver
+}
+
+[ -z "$1" ] && usage && exit 1
+
+ver=$1
+case $ver in
+	2.7) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.8) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.10) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.11) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.12) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.13) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	*) usage && exit 1 ;;
+esac
+
+shift +1
+"$HOME/Python/versions/$ver/bin/python$ver" "$@"

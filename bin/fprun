@@ -1,0 +1,25 @@
+#!/bin/bash
+# Launch flatpak app by short name or name partial pattern instead of using annoying.dot.Name
+# depends : flatpak
+
+DIR=${DIR:-$HOME/.var/app}
+CMD=${CMD:-flatpak run}
+
+launch_app() {
+    m=$(flatpak list --app  | grep -i "$@" | cut -f1)
+    ml=$(echo "$m" | wc -l)
+
+    case $ml in
+		0)
+			echo "No math for $*" && exit 2 ;;
+		1) 
+			$CMD "$(flatpak list --app | grep -i "$@" | cut -f2)"
+		;;
+		
+		*)
+			$CMD "$(flatpak list --app | grep -i "$@" | cut -f2| fzf)"
+		;;
+    esac
+}
+
+launch_app "$@"

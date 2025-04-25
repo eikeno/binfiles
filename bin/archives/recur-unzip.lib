@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+pushd "$(dirname "$@")"
+	unzip "$(basename "$@")" && rm -f "$(basename "$@")"
+popd

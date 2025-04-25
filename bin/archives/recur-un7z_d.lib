@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+pushd "$(dirname "$@")"
+	mkdir -p "$(basename "$@" .7z)" && cd "$(basename "$@" .7z)" && 7z x ../"$(basename "$@")" && rm -f ../"$(basename "$@")" && cd ..
+popd

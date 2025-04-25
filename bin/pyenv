@@ -1,0 +1,53 @@
+#!/bin/bash
+# spellcheck disable=SC1090
+
+function listver {
+	find "$HOME/Python/versions/" -mindepth 1 -maxdepth 1 -regextype sed -regex ".*/[0-9]\{1\}.*"
+}
+
+function usage {
+	echo "$ pyenv VERSION "
+	echo "get a bash prompt in virtualenv"
+	echo
+	echo "$ pyenv VERSION BASH_COMMAND"
+	echo "run BASH_COMMAND in a bash with virtualenv environment"
+	echo
+	echo "$ pyenv VERSION py"
+	echo "get a python prompt from the virtualenv"
+	echo
+	echo "Where VERSION in one of installed versions:"
+	listver
+}
+
+[ -z "$1" ] && usage && exit 1
+
+ver=$1
+case $ver in
+	2.7) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.8) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.10) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.11) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.12) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	3.13) 	export PATH="$HOME/Python/versions/$1/bin:$PATH" ;;
+	*) usage && exit 1 ;;
+esac
+
+shift +1
+
+
+[ ! -d "$HOME/.env-$ver" ] && \
+	echo "Creating venv : ${HOME}/.env-$ver" && \
+	"$HOME/Python/versions/$ver/bin/python$ver" -m venv "$HOME/.env-$ver"
+
+. "$HOME/.env-$ver/bin/activate" || exit 1
+
+if [[ "$*" != "" ]]; then
+	if [[ "$1" == "py" ]]; then
+		shift +1
+		python "$@"
+	else
+		PATH="$PATH" bash -c "${*}"
+	fi
+else
+	PATH="$PATH" bash --norc
+fi
